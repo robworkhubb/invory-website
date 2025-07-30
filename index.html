@@ -102,16 +102,19 @@
             <div class="container">
                 <div class="hero__content">
                     <h1 class="hero__title">
-                        Invory – The Simple Inventory Management Solution for Small Businesses
+                        Invory – La gestione semplice del tuo magazzino
                     </h1>
                     <p class="hero__description">
                         Gestisci il tuo magazzino in modo semplice e intelligente, nessun gestionale complicato. Controllo totale delle scorte, 
                         avvisi automatici e ordini diretti per bar, locali e piccoli negozi.
                     </p>
                     <div class="hero__buttons">
-                        <a href="#pricing" class="btn btn--primary">Provalo Gratis</a>
+                        <a href="#contact-form" class="btn btn--primary">Richiedi Accesso</a>
                         <a href="#demo" class="btn btn--secondary">Vedi Demo</a>
                     </div>
+                    <p class="hero__subtitle">
+                        Compila il form qui sotto per ricevere le tue credenziali personalizzate.
+                    </p>
                 </div>
                 <div class="hero__image">
                     <img src="images/hero-app.png" alt="Invory App Dashboard" loading="lazy">
@@ -182,6 +185,23 @@
                             per prendere decisioni informate.
                         </p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Access Message Section -->
+        <section class="access-message">
+            <div class="container">
+                <div class="access-message__content">
+                    <div class="access-message__icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                        </svg>
+                    </div>
+                    <h2 class="access-message__title">Invory è riservata ai bar e alle piccole attività</h2>
+                    <p class="access-message__description">
+                        Riceverai le tue credenziali personali dopo averci contattato.
+                    </p>
                 </div>
             </div>
         </section>
@@ -293,8 +313,8 @@
                     </ul>
                     
                     <div class="pricing__cta">
-                        <a href="#contact" class="btn btn--primary btn--large">Inizia Prova Gratuita</a>
-                        <p class="pricing__trial">14 giorni di prova gratuita, nessuna carta di credito richiesta</p>
+                        <a href="#contact-form" class="btn btn--primary btn--large">Richiedi Accesso</a>
+                        <p class="pricing__trial">Riceverai le tue credenziali personali dopo averci contattato</p>
                     </div>
                 </div>
             </div>
@@ -359,7 +379,54 @@
                         Unisciti a centinaia di piccole aziende che hanno già scelto Invory. 
                         Inizia la tua prova gratuita oggi stesso.
                     </p>
-                    <a href="#contact" class="btn btn--primary btn--large">Richiedi Accesso Gratuito</a>
+                    <a href="#contact-form" class="btn btn--primary btn--large">Richiedi Accesso</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form Section -->
+        <section id="contact-form" class="contact-form">
+            <div class="container">
+                <div class="section__header">
+                    <h2 class="section__title">Richiedi le tue credenziali</h2>
+                    <p class="section__description">
+                        Compila il form qui sotto e riceverai le tue credenziali personalizzate per accedere a Invory
+                    </p>
+                </div>
+                
+                <div class="contact-form__container">
+                    <form class="contact-form__form" action="https://formspree.io/f/mblkkdbe" method="POST">
+                        <div class="form__row">
+                            <div class="form__group">
+                                <label for="bar-name" class="form__label">Nome del bar *</label>
+                                <input type="text" id="bar-name" name="bar-name" class="form__input" required>
+                            </div>
+                            <div class="form__group">
+                                <label for="contact-name" class="form__label">Nome referente *</label>
+                                <input type="text" id="contact-name" name="contact-name" class="form__input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form__row">
+                            <div class="form__group">
+                                <label for="email" class="form__label">Email *</label>
+                                <input type="email" id="email" name="email" class="form__input" required>
+                            </div>
+                            <div class="form__group">
+                                <label for="phone" class="form__label">Telefono *</label>
+                                <input type="tel" id="phone" name="phone" class="form__input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form__group">
+                            <label for="message" class="form__label">Messaggio (facoltativo)</label>
+                            <textarea id="message" name="message" class="form__textarea" rows="4" placeholder="Raccontaci di più sulla tua attività..."></textarea>
+                        </div>
+                        
+                        <div class="form__submit">
+                            <button type="submit" class="btn btn--primary btn--large">Richiedi le tue credenziali</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>

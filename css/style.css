@@ -273,6 +273,14 @@ img {
     line-height: 1.6;
 }
 
+.hero__subtitle {
+    font-size: 1.125rem;
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-top: 1rem;
+    text-align: center;
+}
+
 .hero__buttons {
     display: flex;
     gap: 1rem;
@@ -350,6 +358,43 @@ img {
 }
 
 .feature__description {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* ===== ACCESS MESSAGE SECTION ===== */
+.access-message {
+    padding: 4rem 0;
+    background-color: var(--background-light);
+    text-align: center;
+}
+
+.access-message__content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.access-message__icon {
+    width: 80px;
+    height: 80px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.access-message__title {
+    font-size: var(--h2-font-size);
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.access-message__description {
+    font-size: 1.125rem;
     color: var(--text-light);
     line-height: 1.6;
 }
@@ -528,6 +573,102 @@ img {
     font-size: var(--small-font-size);
 }
 
+/* ===== CONTACT FORM SECTION ===== */
+.contact-form {
+    padding: 5rem 0;
+    background-color: var(--background-color);
+}
+
+.contact-form__container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-form__form {
+    background-color: var(--secondary-color);
+    padding: 3rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    border: 2px solid var(--primary-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-form__form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+}
+
+.form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form__group {
+    margin-bottom: 1.5rem;
+}
+
+.form__label {
+    display: block;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.form__input,
+.form__textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--normal-font-size);
+    font-family: var(--body-font);
+    transition: var(--transition);
+    background-color: var(--secondary-color);
+}
+
+.form__input:focus,
+.form__textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 150, 136, 0.1);
+}
+
+.form__input.error,
+.form__textarea.error {
+    border-color: #f44336;
+    box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
+.form__input.valid,
+.form__textarea.valid {
+    border-color: #4caf50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.form__submit button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.form__textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form__submit {
+    text-align: center;
+    margin-top: 2rem;
+}
+
 /* ===== CTA SECTION ===== */
 .cta {
     padding: 5rem 0;
@@ -693,6 +834,20 @@ img {
         visibility: hidden;
     }
     
+    .form__row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .contact-form__form {
+        padding: 2rem;
+    }
+    
+    .hero__subtitle {
+        font-size: 1rem;
+        margin-top: 0.75rem;
+    }
+    
     .nav__menu.show-menu {
         top: 100%;
         opacity: 1;
@@ -803,6 +958,22 @@ img {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@keyframes highlightForm {
+    0% {
+        box-shadow: var(--shadow);
+    }
+    50% {
+        box-shadow: 0 0 0 4px rgba(0, 150, 136, 0.3), var(--shadow);
+    }
+    100% {
+        box-shadow: var(--shadow);
+    }
+}
+
+.contact-form__form.highlight {
+    animation: highlightForm 2s ease-in-out;
 }
 
 @keyframes fadeIn {

@@ -81,7 +81,7 @@ function handleContactForm(event) {
     const data = Object.fromEntries(formData);
     
     // Basic validation
-    if (!data.name || !data.email || !data.message) {
+    if (!data['bar-name'] || !data['contact-name'] || !data.email || !data.phone) {
         showNotification('Per favore compila tutti i campi richiesti.', 'error');
         return;
     }
@@ -93,9 +93,47 @@ function handleContactForm(event) {
         return;
     }
     
-    // Simulate form submission
-    showNotification('Messaggio inviato con successo! Ti contatteremo presto.', 'success');
-    event.target.reset();
+    // Phone validation
+    const phoneRegex = /^[\+]?[0-9\s\-\(\)]{8,}$/;
+    if (!phoneRegex.test(data.phone)) {
+        showNotification('Per favore inserisci un numero di telefono valido.', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const submitButton = event.target.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+    submitButton.textContent = 'Invio in corso...';
+    submitButton.disabled = true;
+    
+    // Submit to Formspree
+    fetch(event.target.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            showNotification('Richiesta inviata con successo! Ti invieremo le credenziali via email.', 'success');
+            event.target.reset();
+            trackEvent('form_submitted', {
+                form_type: 'contact_form',
+                bar_name: data['bar-name']
+            });
+        } else {
+            throw new Error('Errore nell\'invio');
+        }
+    })
+    .catch(error => {
+        console.error('Form submission error:', error);
+        showNotification('Errore nell\'invio. Riprova più tardi o contattaci direttamente.', 'error');
+    })
+    .finally(() => {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+    });
 }
 
 // ===== NOTIFICATION SYSTEM =====
@@ -244,10 +282,40 @@ function trackEvent(eventName, eventData = {}) {
 // Track CTA clicks
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('btn--primary')) {
+        const href = e.target.getAttribute('href');
+        const isFormCTA = href === '#contact-form';
+        
         trackEvent('cta_click', {
             button_text: e.target.textContent,
-            page_section: e.target.closest('section')?.id || 'unknown'
+            page_section: e.target.closest('section')?.id || 'unknown',
+            target: isFormCTA ? 'contact_form' : 'other'
         });
+        
+        // Smooth scroll to form if it's a form CTA
+        if (isFormCTA) {
+            e.preventDefault();
+            const formSection = document.querySelector('#contact-form');
+            if (formSection) {
+                const headerHeight = header.offsetHeight;
+                const targetPosition = formSection.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Highlight the form after scrolling
+                setTimeout(() => {
+                    const form = document.querySelector('.contact-form__form');
+                    if (form) {
+                        form.classList.add('highlight');
+                        setTimeout(() => {
+                            form.classList.remove('highlight');
+                        }, 2000);
+                    }
+                }, 1000);
+            }
+        }
     }
 });
 
@@ -295,6 +363,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactForms = document.querySelectorAll('form');
     contactForms.forEach(form => {
         form.addEventListener('submit', handleContactForm);
+        
+        // Add real-time validation feedback
+        const inputs = form.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('blur', () => {
+                validateField(input);
+            });
+            
+            input.addEventListener('input', () => {
+                if (input.classList.contains('error')) {
+                    validateField(input);
+                }
+            });
+        });
     });
     
     // Add loading animation
@@ -302,6 +384,43 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('Invory website loaded successfully!');
 });
+
+// ===== FORM VALIDATION =====
+function validateField(field) {
+    const value = field.value.trim();
+    const fieldName = field.name;
+    
+    // Remove existing error states
+    field.classList.remove('error', 'valid');
+    
+    // Validate based on field type
+    if (field.hasAttribute('required') && !value) {
+        field.classList.add('error');
+        return false;
+    }
+    
+    if (fieldName === 'email' && value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+            field.classList.add('error');
+            return false;
+        }
+    }
+    
+    if (fieldName === 'phone' && value) {
+        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{8,}$/;
+        if (!phoneRegex.test(value)) {
+            field.classList.add('error');
+            return false;
+        }
+    }
+    
+    if (value) {
+        field.classList.add('valid');
+    }
+    
+    return true;
+}
 
 // ===== CSS ANIMATIONS =====
 const style = document.createElement('style');
