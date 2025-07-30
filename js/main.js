@@ -117,7 +117,7 @@ function handleContactForm(event) {
     .then(response => {
         if (response.ok) {
             showNotification('Richiesta inviata con successo! Ti invieremo le credenziali via email.', 'success');
-            event.target.reset();
+    event.target.reset();
             trackEvent('form_submitted', {
                 form_type: 'contact_form',
                 bar_name: data['bar-name']
