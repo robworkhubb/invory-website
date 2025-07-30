@@ -1,0 +1,175 @@
+<!-- ===== GOOGLE ANALYTICS 4 CONFIGURATION ===== -->
+<!-- 
+    SOSTITUISCI "GA_MEASUREMENT_ID" CON IL TUO ID DI MISURAZIONE GOOGLE ANALYTICS
+    
+    Per ottenere il tuo ID:
+    1. Vai su https://analytics.google.com/
+    2. Crea una nuova proprietà per "Invory"
+    3. Copia l'ID di misurazione (formato: G-XXXXXXXXXX)
+    4. Sostituisci GA_MEASUREMENT_ID con il tuo ID
+-->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'GA_MEASUREMENT_ID', {
+    page_title: 'Invory - Gestione Scorte Semplice',
+    page_location: window.location.href,
+    custom_map: {
+      'custom_parameter_1': 'business_type',
+      'custom_parameter_2': 'user_interest'
+    }
+  });
+</script>
+
+<!-- ===== FACEBOOK PIXEL CONFIGURATION ===== -->
+<!-- 
+    SOSTITUISCI "FB_PIXEL_ID" CON IL TUO ID PIXEL FACEBOOK
+    
+    Per ottenere il tuo ID:
+    1. Vai su https://business.facebook.com/
+    2. Crea un nuovo pixel per "Invory"
+    3. Copia l'ID del pixel
+    4. Sostituisci FB_PIXEL_ID con il tuo ID
+-->
+
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'FB_PIXEL_ID');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=FB_PIXEL_ID&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
+<!-- ===== GOOGLE TAG MANAGER CONFIGURATION ===== -->
+<!-- 
+    ALTERNATIVA: Usa Google Tag Manager per gestire tutti i tag
+    
+    SOSTITUISCI "GTM_ID" CON IL TUO ID GTM
+    
+    Per ottenere il tuo ID:
+    1. Vai su https://tagmanager.google.com/
+    2. Crea un nuovo account/container per "Invory"
+    3. Copia l'ID del container (formato: GTM-XXXXXXX)
+    4. Sostituisci GTM_ID con il tuo ID
+-->
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM_ID');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM_ID"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- ===== CUSTOM EVENT TRACKING ===== -->
+<script>
+// Eventi personalizzati per Invory
+document.addEventListener('DOMContentLoaded', function() {
+    // Track CTA clicks
+    const ctaButtons = document.querySelectorAll('.btn--primary');
+    ctaButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            gtag('event', 'cta_click', {
+                'event_category': 'engagement',
+                'event_label': this.textContent.trim(),
+                'value': 1
+            });
+            
+            fbq('track', 'Lead', {
+                content_name: this.textContent.trim(),
+                content_category: 'CTA'
+            });
+        });
+    });
+    
+    // Track WhatsApp clicks
+    const whatsappButton = document.querySelector('.whatsapp-button');
+    if (whatsappButton) {
+        whatsappButton.addEventListener('click', function() {
+            gtag('event', 'whatsapp_click', {
+                'event_category': 'contact',
+                'event_label': 'WhatsApp Business',
+                'value': 1
+            });
+            
+            fbq('track', 'Contact', {
+                content_name: 'WhatsApp Contact',
+                content_category: 'Contact'
+            });
+        });
+    }
+    
+    // Track scroll depth
+    let maxScroll = 0;
+    window.addEventListener('scroll', function() {
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        if (scrollPercent > maxScroll) {
+            maxScroll = scrollPercent;
+            if (maxScroll >= 25 && maxScroll < 50) {
+                gtag('event', 'scroll_25', {'event_category': 'engagement'});
+            } else if (maxScroll >= 50 && maxScroll < 75) {
+                gtag('event', 'scroll_50', {'event_category': 'engagement'});
+            } else if (maxScroll >= 75) {
+                gtag('event', 'scroll_75', {'event_category': 'engagement'});
+            }
+        }
+    });
+    
+    // Track time on page
+    let startTime = Date.now();
+    window.addEventListener('beforeunload', function() {
+        const timeOnPage = Math.round((Date.now() - startTime) / 1000);
+        gtag('event', 'time_on_page', {
+            'event_category': 'engagement',
+            'value': timeOnPage
+        });
+    });
+});
+</script>
+
+<!-- ===== CONVERSION TRACKING ===== -->
+<script>
+// Funzione per tracciare conversioni
+function trackConversion(conversionType, value = 1) {
+    gtag('event', 'conversion', {
+        'send_to': 'GA_MEASUREMENT_ID/conversion',
+        'value': value,
+        'currency': 'EUR',
+        'transaction_id': Date.now()
+    });
+    
+    fbq('track', 'Purchase', {
+        value: value,
+        currency: 'EUR'
+    });
+}
+
+// Esempio di utilizzo per form di contatto
+function trackContactForm() {
+    trackConversion('contact_form', 1);
+}
+
+// Esempio di utilizzo per prova gratuita
+function trackFreeTrial() {
+    trackConversion('free_trial', 1);
+}
+</script> 

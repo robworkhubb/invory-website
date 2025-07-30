@@ -1,0 +1,39 @@
+# IMMAGINI NECESSARIE PER IL SITO INVORY
+
+Questa cartella dovrebbe contenere le seguenti immagini:
+
+## IMMAGINI PRINCIPALI
+- hero-app.png (1200x800px) - Screenshot dell'app Invory per la sezione hero
+- app-demo.png (800x600px) - Demo dell'applicazione per la sezione demo
+
+## FAVICON E ICONE
+- favicon.ico (32x32px) - Favicon del sito
+- apple-touch-icon.png (180x180px) - Icona per dispositivi Apple
+
+## SOCIAL MEDIA
+- og-image.jpg (1200x630px) - Immagine per Open Graph (Facebook, LinkedIn)
+- twitter-image.jpg (1200x600px) - Immagine per Twitter Cards
+
+## SPECIFICAZIONI TECNICHE
+- Formato: PNG per screenshot, JPG per foto, ICO per favicon
+- Ottimizzazione: Compressi per il web (max 500KB per immagine)
+- Alt text: Includere descrizioni SEO-friendly
+- Responsive: Versioni per mobile se necessario
+
+## SUGGERIMENTI PER LE IMMAGINI
+1. hero-app.png: Mostrare l'interfaccia principale dell'app con dati realistici
+2. app-demo.png: Screenshot di una funzionalità specifica (es. dashboard, gestione scorte)
+3. og-image.jpg: Design accattivante con logo Invory e call-to-action
+4. twitter-image.jpg: Versione ottimizzata per Twitter con testo leggibile
+
+## OTTIMIZZAZIONE SEO
+- Nomi file descrittivi (es. "invory-dashboard-screenshot.png")
+- Alt text con parole chiave target
+- Dimensioni appropriate per ogni dispositivo
+- Compressione senza perdita di qualità visiva
+
+## STRUMENTI CONSIGLIATI
+- TinyPNG per compressione
+- Canva per creazione immagini social
+- Favicon.io per generazione favicon
+- Google PageSpeed Insights per test performance 
