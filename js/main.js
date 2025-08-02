@@ -54,23 +54,120 @@ window.addEventListener('scroll', () => {
 
 // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
 const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: 0.15,
+    rootMargin: '0px 0px -100px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
+            const element = entry.target;
+            
+            // Get animation type from data attribute or default
+            const animationType = element.dataset.animation || 'fade-in-up';
+            element.classList.add(`animate-${animationType}`);
+            
+            // Add stagger delay for grid items
+            const staggerIndex = element.dataset.stagger;
+            if (staggerIndex) {
+                element.classList.add(`animate-stagger-${staggerIndex}`);
+            }
+            
+            // Mark as animated to prevent re-animation
+            element.dataset.animated = 'true';
         }
     });
 }, observerOptions);
 
-// Observe elements for animation
-const animateElements = document.querySelectorAll('.feature__card, .benefit__card, .testimonial__card, .pricing__card');
-animateElements.forEach(el => {
-    observer.observe(el);
-});
+// Enhanced animation system
+function initializeAnimations() {
+    // Hero section animations
+    const heroTitle = document.querySelector('.hero__title');
+    const heroDescription = document.querySelector('.hero__description');
+    const heroButtons = document.querySelector('.hero__buttons');
+    const heroImage = document.querySelector('.hero__image');
+    
+    if (heroTitle) {
+        heroTitle.classList.add('animate-on-scroll');
+        setTimeout(() => heroTitle.classList.add('animated'), 300);
+    }
+    if (heroDescription) {
+        heroDescription.classList.add('animate-on-scroll');
+        setTimeout(() => heroDescription.classList.add('animated'), 500);
+    }
+    if (heroButtons) {
+        heroButtons.classList.add('animate-on-scroll');
+        setTimeout(() => heroButtons.classList.add('animated'), 700);
+    }
+    if (heroImage) {
+        heroImage.classList.add('animate-on-scroll');
+        setTimeout(() => heroImage.classList.add('animated'), 900);
+    }
+    
+    // Feature cards with stagger
+    const featureCards = document.querySelectorAll('.feature__card');
+    featureCards.forEach((card, index) => {
+        card.dataset.animation = 'fade-in-up';
+        card.dataset.stagger = (index + 1).toString();
+        observer.observe(card);
+    });
+    
+    // Benefit cards with scale animation
+    const benefitCards = document.querySelectorAll('.benefit__card');
+    benefitCards.forEach((card, index) => {
+        card.dataset.animation = 'scale-in';
+        card.dataset.stagger = (index + 1).toString();
+        observer.observe(card);
+    });
+    
+    // Testimonial cards with slide animation
+    const testimonialCards = document.querySelectorAll('.testimonial__card');
+    testimonialCards.forEach((card, index) => {
+        card.dataset.animation = 'slide-in-up';
+        card.dataset.stagger = (index + 1).toString();
+        observer.observe(card);
+    });
+    
+    // Pricing card with bounce animation
+    const pricingCard = document.querySelector('.pricing__card');
+    if (pricingCard) {
+        pricingCard.dataset.animation = 'bounce-in';
+        observer.observe(pricingCard);
+    }
+    
+    // Section headers
+    const sectionHeaders = document.querySelectorAll('.section__header');
+    sectionHeaders.forEach(header => {
+        header.dataset.animation = 'fade-in-up';
+        observer.observe(header);
+    });
+    
+    // Demo section with left/right animations
+    const demoText = document.querySelector('.demo__text');
+    const demoImage = document.querySelector('.demo .hero__image');
+    if (demoText) {
+        demoText.dataset.animation = 'fade-in-left';
+        observer.observe(demoText);
+    }
+    if (demoImage) {
+        demoImage.dataset.animation = 'fade-in-right';
+        observer.observe(demoImage);
+    }
+    
+    // Access message with scale animation
+    const accessMessage = document.querySelector('.access-message__content');
+    if (accessMessage) {
+        accessMessage.dataset.animation = 'scale-in';
+        observer.observe(accessMessage);
+    }
+    
+    // Contact form with slide animation
+    const contactForm = document.querySelector('.contact-form__form');
+    if (contactForm) {
+        contactForm.dataset.animation = 'slide-in-up';
+        observer.observe(contactForm);
+    }
+}
 
 // ===== FORM HANDLING =====
 function handleContactForm(event) {
@@ -241,10 +338,26 @@ function createScrollToTopButton() {
     
     // Scroll to top functionality
     scrollButton.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        const startPosition = window.pageYOffset;
+        const duration = 800;
+        let start = null;
+        
+        function animation(currentTime) {
+            if (start === null) start = currentTime;
+            const timeElapsed = currentTime - start;
+            const run = easeInOutCubic(timeElapsed, startPosition, -startPosition, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+        
+        function easeInOutCubic(t, b, c, d) {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t * t + b;
+            t -= 2;
+            return c / 2 * (t * t * t + 2) + b;
+        }
+        
+        requestAnimationFrame(animation);
     });
 }
 
@@ -299,10 +412,28 @@ document.addEventListener('click', (e) => {
                 const headerHeight = header.offsetHeight;
                 const targetPosition = formSection.offsetTop - headerHeight;
                 
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+                // Enhanced smooth scroll with easing
+                const startPosition = window.pageYOffset;
+                const distance = targetPosition - startPosition;
+                const duration = 1000;
+                let start = null;
+                
+                function animation(currentTime) {
+                    if (start === null) start = currentTime;
+                    const timeElapsed = currentTime - start;
+                    const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+                    window.scrollTo(0, run);
+                    if (timeElapsed < duration) requestAnimationFrame(animation);
+                }
+                
+                function easeInOutCubic(t, b, c, d) {
+                    t /= d / 2;
+                    if (t < 1) return c / 2 * t * t * t + b;
+                    t -= 2;
+                    return c / 2 * (t * t * t + 2) + b;
+                }
+                
+                requestAnimationFrame(animation);
                 
                 // Highlight the form after scrolling
                 setTimeout(() => {
@@ -313,7 +444,7 @@ document.addEventListener('click', (e) => {
                             form.classList.remove('highlight');
                         }, 2000);
                     }
-                }, 1000);
+                }, 1200);
             }
         }
     }
@@ -358,6 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lazyLoadImages();
     createScrollToTopButton();
     improveAccessibility();
+    initializeAnimations();
     
     // Add form event listeners
     const contactForms = document.querySelectorAll('form');

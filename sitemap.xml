@@ -16,12 +16,12 @@
         <loc>https://invory.app/#pricing</loc>
         <lastmod>2024-01-15</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://invory.app/#contact</loc>
+        <loc>https://invory.app/#contact-form</loc>
         <lastmod>2024-01-15</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
+        <priority>0.8</priority>
     </url>
 </urlset> 
